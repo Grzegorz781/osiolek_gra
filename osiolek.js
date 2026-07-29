@@ -132,7 +132,7 @@ function sprawdz(nr)
 		var element = "lit" + nr;
 		document.getElementById(element).style.background = "#003300";
 		document.getElementById(element).style.color = "#00C000";
-		document.getElementById(element).style.border = "clamp(0.2rem, 0.4vw, 0.3rem) solid #00C000";
+		document.getElementById(element).style.border = "clamp(0.1rem, 0.4vw, 0.2rem) solid #00C000";
 		document.getElementById(element).style.cursor = "default";
 		document.getElementById(element).setAttribute("onclick",";");
 		
@@ -144,7 +144,7 @@ function sprawdz(nr)
 		var element = "lit" + nr;
 		document.getElementById(element).style.background = "#330000";
 		document.getElementById(element).style.color = "#C00000";
-		document.getElementById(element).style.border = "clamp(0.2rem, 0.4vw, 0.3rem) solid #C00000";
+		document.getElementById(element).style.border = "clamp(0.1rem, 0.4vw, 0.2rem) solid #C00000";
 		document.getElementById(element).style.cursor = "default";	
 		document.getElementById(element).setAttribute("onclick",";");		
 		
