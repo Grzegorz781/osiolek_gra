@@ -1642,8 +1642,11 @@ var haslo1 = "";
 
 for (i=0; i<dlugosc; i++)
 {
-	if (haslo.charAt(i)==" "|haslo.charAt(i)==","|haslo.charAt(i)==";"|haslo.charAt(i)=="("|haslo.charAt(i)==")"|haslo.charAt(i)=="-"|haslo.charAt(i)=="."|haslo.charAt(i)=="?"|haslo.charAt(i)=="!"|(haslo.charAt(i) >= '0' && haslo.charAt(i) <= '9')) haslo1 = haslo1 + haslo.charAt(i);
-	else haslo1 = haslo1 + "_";
+	//if (haslo.charAt(i)==" "|haslo.charAt(i)==","|haslo.charAt(i)==";"|haslo.charAt(i)=="("|haslo.charAt(i)==")"|haslo.charAt(i)=="-"|haslo.charAt(i)=="."|haslo.charAt(i)=="?"|haslo.charAt(i)=="!"|(haslo.charAt(i) >= '0' && haslo.charAt(i) <= '9')) haslo1 = haslo1 + haslo.charAt(i);
+	//else haslo1 = haslo1 + "_";
+	if (litery.includes(haslo.charAt(i))) haslo1 = haslo1 + "_";
+	else haslo1 = haslo1 + haslo.charAt(i);
+
 }
 
 function wypisz_haslo()
