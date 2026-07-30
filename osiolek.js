@@ -1642,7 +1642,7 @@ var haslo1 = "";
 
 for (i=0; i<dlugosc; i++)
 {
-	if (haslo.charAt(i)==" "|haslo.charAt(i)==","|haslo.charAt(i)=="."|haslo.charAt(i)=="?"|haslo.charAt(i)=="!") haslo1 = haslo1 + haslo.charAt(i);
+	if (haslo.charAt(i)==" "|haslo.charAt(i)==","|haslo.charAt(i)==";"|haslo.charAt(i)=="."|haslo.charAt(i)=="?"|haslo.charAt(i)=="!") haslo1 = haslo1 + haslo.charAt(i);
 	else haslo1 = haslo1 + "_";
 }
 
