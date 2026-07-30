@@ -1601,9 +1601,6 @@ function getPrzyslowie(){
 }
 
 
-
-
-
 var haslo = "Bez pracy nie ma kołaczy";
 haslo = "Ala ma kota, a kot ma Alę!";
 haslo = getPrzyslowie();
@@ -1697,7 +1694,32 @@ function wypisz_haslo()
 
 window.onload = start;
 
+function znajdzNrLitery(klawisz)
+{
+	if (!klawisz) return null;
+	
+	const litera = klawisz.toUpperCase();
+	const mapa = {
+		'A': 0, 'Ą': 1, 'B': 2, 'C': 3, 'Ć': 4, 'D': 5, 'E': 6, 'Ę': 7,
+		'F': 8, 'G': 9, 'H': 10, 'I': 11, 'J': 12, 'K': 13, 'L': 14, 'Ł': 15,
+		'M': 16, 'N': 17, 'Ń': 18, 'O': 19, 'Ó': 20, 'P': 21, 'Q': 22, 'R': 23,
+		'S': 24, 'Ś': 25, 'T': 26, 'U': 27, 'V': 28, 'W': 29, 'X': 30, 'Y': 31,
+		'Z': 32, 'Ż': 33, 'Ź': 34
+	};
+	
+	return mapa[litera] !== undefined ? mapa[litera] : null;
+}
 
+function obsluzKlawisz(event)
+{
+	if (event.repeat) return;
+	
+	const nr = znajdzNrLitery(event.key);
+	if (nr === null) return;
+	
+	event.preventDefault();
+	sprawdz(nr);
+}
 
 function start()
 {
@@ -1713,7 +1735,7 @@ function start()
 	
 	document.getElementById("alfabet").innerHTML = tresc_diva;
 	
-	
+	document.addEventListener("keydown", obsluzKlawisz);
 	wypisz_haslo();
 }
 
@@ -1726,6 +1748,10 @@ String.prototype.ustawZnak = function(miejsce, znak)
 
 function sprawdz(nr)
 {
+	var element = "lit" + nr;
+	var przycisk = document.getElementById(element);
+	
+	if (!przycisk || przycisk.getAttribute("onclick") === ";") return;
 	
 	var trafiona = false;
 	
@@ -1741,24 +1767,22 @@ function sprawdz(nr)
 	if(trafiona == true)
 	{
 		yes.play();
-		var element = "lit" + nr;
-		document.getElementById(element).style.background = "#003300";
-		document.getElementById(element).style.color = "#00C000";
-		document.getElementById(element).style.border = "clamp(0.1rem, 0.4vw, 0.2rem) solid #00C000";
-		document.getElementById(element).style.cursor = "default";
-		document.getElementById(element).setAttribute("onclick",";");
+		przycisk.style.background = "#003300";
+		przycisk.style.color = "#00C000";
+		przycisk.style.border = "clamp(0.1rem, 0.4vw, 0.2rem) solid #00C000";
+		przycisk.style.cursor = "default";
+		przycisk.setAttribute("onclick",";");
 		
 		wypisz_haslo();
 	}
 	else
 	{
 		no.play();
-		var element = "lit" + nr;
-		document.getElementById(element).style.background = "#330000";
-		document.getElementById(element).style.color = "#C00000";
-		document.getElementById(element).style.border = "clamp(0.1rem, 0.4vw, 0.2rem) solid #C00000";
-		document.getElementById(element).style.cursor = "default";	
-		document.getElementById(element).setAttribute("onclick",";");		
+		przycisk.style.background = "#330000";
+		przycisk.style.color = "#C00000";
+		przycisk.style.border = "clamp(0.1rem, 0.4vw, 0.2rem) solid #C00000";
+		przycisk.style.cursor = "default";	
+		przycisk.setAttribute("onclick",";");		
 		
 		//skucha
 		ile_skuch++;
