@@ -1,5 +1,4 @@
-function getPrzyslowie(){
-	const odpowiedz = `Bez pracy nie ma kołaczy
+var przyslowia = `Bez pracy nie ma kołaczy
 baba o szydle, dziad o mydle
 baba swoje, czart swoje
 baba w progi, cisza w nogi
@@ -1594,7 +1593,9 @@ każda Zosia dobra gosposia
 święta Zofija kłosy wywija (15 V)
 święty Stanisław len sieje, Zofia konopie, a Urban jęczmień i owies każe kończyć chłopie (15 V)
 gdy Zuzanna z pogodą chadza, piękną jesień przyprowadza (11 VIII)`
-	const linie = odpowiedz.split(/\r?\n/).filter(linia => linia.trim() !== '');
+
+function getPrzyslowie(){
+	const linie = przyslowia.split(/\r?\n/).filter(linia => linia.trim() !== '');
 	const losowyIndex = Math.floor(Math.random() * linie.length);
 	return linie[losowyIndex];
 }
