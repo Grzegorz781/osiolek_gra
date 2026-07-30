@@ -1767,13 +1767,13 @@ function sprawdz(nr)
 	
 	//wygrana
 	if (haslo == haslo1){
-	document.getElementById("alfabet").innerHTML  = "Tak jest! Podano prawidłowe hasło: "+haslo+'<br /><br /><span class="reset" onclick="location.reload()">JESZCZE RAZ?</span>';
+	document.getElementById("alfabet").innerHTML  = "Brawo! Podano prawidłowe hasło! <br /><br /><span class="reset" onclick="location.reload()">JESZCZE RAZ?</span>';
 	zagrajFanfare();
 
 	}
 	//przegrana
 	if (ile_skuch>=9){
-	document.getElementById("alfabet").innerHTML  = "Przegrana! Prawidłowe hasło: "+haslo+'<br /><br /><span class="reset" onclick="location.reload()">JESZCZE RAZ?</span>';
+	document.getElementById("alfabet").innerHTML  = "Buu! Prawidłowe hasło:<br />"+haslo+'<br /><br /><span class="reset" onclick="location.reload()">JESZCZE RAZ?</span>';
 	osiol.play();
 	}
 }
