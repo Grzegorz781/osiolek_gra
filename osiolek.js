@@ -1634,27 +1634,6 @@ function zagrajFanfare() {
 
 
 
-// Pierwsce uruchomienie
-//zagrajFanfare();
-
-
-var haslo1 = "";
-
-for (i=0; i<dlugosc; i++)
-{
-	//if (haslo.charAt(i)==" "|haslo.charAt(i)==","|haslo.charAt(i)==";"|haslo.charAt(i)=="("|haslo.charAt(i)==")"|haslo.charAt(i)=="-"|haslo.charAt(i)=="."|haslo.charAt(i)=="?"|haslo.charAt(i)=="!"|(haslo.charAt(i) >= '0' && haslo.charAt(i) <= '9')) haslo1 = haslo1 + haslo.charAt(i);
-	//else haslo1 = haslo1 + "_";
-	if (litery.includes(haslo.charAt(i))) haslo1 = haslo1 + "_";
-	else haslo1 = haslo1 + haslo.charAt(i);
-
-}
-
-function wypisz_haslo()
-{
-	document.getElementById("plansza").innerHTML = haslo1;
-}
-
-window.onload = start;
 
 var litery = new Array(35);
 
@@ -1693,6 +1672,29 @@ litery[31] = "Y";
 litery[32] = "Z";
 litery[33] = "Ż";
 litery[34] = "Ź";
+
+
+// Pierwsce uruchomienie
+//zagrajFanfare();
+
+
+var haslo1 = "";
+
+for (i=0; i<dlugosc; i++)
+{
+	//if (haslo.charAt(i)==" "|haslo.charAt(i)==","|haslo.charAt(i)==";"|haslo.charAt(i)=="("|haslo.charAt(i)==")"|haslo.charAt(i)=="-"|haslo.charAt(i)=="."|haslo.charAt(i)=="?"|haslo.charAt(i)=="!"|(haslo.charAt(i) >= '0' && haslo.charAt(i) <= '9')) haslo1 = haslo1 + haslo.charAt(i);
+	//else haslo1 = haslo1 + "_";
+	if (litery.includes(haslo.charAt(i))) haslo1 = haslo1 + "_";
+	else haslo1 = haslo1 + haslo.charAt(i);
+
+}
+
+function wypisz_haslo()
+{
+	document.getElementById("plansza").innerHTML = haslo1;
+}
+
+window.onload = start;
 
 
 
