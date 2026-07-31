@@ -81,15 +81,22 @@ body
 		border-radius: 1rem;
 	}
 
-	#osiolek
+	#plansza
 	{
-		margin-bottom: 0.5rem;
+		order: 0;
 	}
 
 	#alfabet
 	{
+		order: 1;
 		padding-bottom: 0.75rem;
-		margin-top: -0.5rem;
+		margin-top: 0;
+	}
+
+	#osiolek
+	{
+		order: 2;
+		margin-bottom: 0.5rem;
 	}
 }
 
