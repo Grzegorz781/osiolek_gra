@@ -82,6 +82,12 @@ body
 		border-radius: 1rem;
 	}
 
+	#osiolek
+	{
+		order: 1;
+		margin-bottom: 0;
+	}
+
 	#alfabet
 	{
 		order: 2;
@@ -89,11 +95,6 @@ body
 		margin-top: 0;
 	}
 
-	#osiolek
-	{
-		order: 1;
-		margin-bottom: 0;
-	}
 }
 
 .litera
