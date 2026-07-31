@@ -80,6 +80,66 @@ body
 	border: clamp(0.1rem, 0.4vw, 0.2rem)solid white;
 }
 
+.menu
+{
+	max-width: 700px;
+	margin: 8vh auto 0;
+	text-align: center;
+}
+
+.menu h1
+{
+	margin-bottom: 1rem;
+	font-size: clamp(24px, 3vw, 36px);
+}
+
+.menu-buttons
+{
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+
+.menu button
+{
+	padding: 0.8rem 1.4rem;
+	font-size: clamp(20px, 2vw, 28px);
+	font-family: 'Inconsolata';
+	font-weight: 700;
+	background-color: #111111;
+	color: lightgray;
+	border: 2px solid gray;
+	border-radius: 0.5rem;
+	cursor: pointer;
+}
+
+.menu button:hover
+{
+	background-color: #222222;
+	color: white;
+	border-color: white;
+}
+
+.powrot-menu
+{
+	color: green;
+	cursor: pointer;
+	font-size: clamp(20px, 2vw, 28px);
+	margin-top: 1rem;
+	display: inline-block;
+}
+
+.powrot-menu:hover
+{
+	color: white;
+}
+
+.ukryte
+{
+	display: none !important;
+}
+
 .reset
 {
 	color:green;

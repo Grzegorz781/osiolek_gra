@@ -5,14 +5,27 @@ function getPrzyslowie(){
 	return linie[losowyIndex];
 }
 
+var indeksNaStraganie = 0;
 
-var haslo = "Bez pracy nie ma kołaczy";
-haslo = "Ala ma kota, a kot ma Alę!";
-haslo = getPrzyslowie();
-haslo = haslo.toUpperCase();
+function getLosoweHaslo(zestaw) {
+	if (zestaw === 'naStraganie') {
+		if (Array.isArray(naStraganie) && naStraganie.length > 0) {
+			const hasloNaStraganie = naStraganie[indeksNaStraganie];
+			indeksNaStraganie = (indeksNaStraganie + 1) % naStraganie.length;
+			return hasloNaStraganie;
+		}
+		return 'NA STRAGANIE';
+	}
 
-var dlugosc = haslo.length;
+	const przyslowie = getPrzyslowie();
+	return przyslowie || 'BEZ PRACY NIE MA KOŁACZY';
+}
+
+var haslo = "";
+var haslo1 = "";
+var dlugosc = 0;
 var ile_skuch = 0;
+var aktywnyZestaw = "";
 
 var yes = new Audio("yes.wav");
 var no = new Audio("no.wav");
@@ -80,16 +93,17 @@ litery[34] = "Ź";
 // Pierwsce uruchomienie
 //zagrajFanfare();
 
-
-var haslo1 = "";
-
-for (i=0; i<dlugosc; i++)
+function zbudujHaslo1()
 {
-	//if (haslo.charAt(i)==" "|haslo.charAt(i)==","|haslo.charAt(i)==";"|haslo.charAt(i)=="("|haslo.charAt(i)==")"|haslo.charAt(i)=="-"|haslo.charAt(i)=="."|haslo.charAt(i)=="?"|haslo.charAt(i)=="!"|(haslo.charAt(i) >= '0' && haslo.charAt(i) <= '9')) haslo1 = haslo1 + haslo.charAt(i);
-	//else haslo1 = haslo1 + "_";
-	if (litery.includes(haslo.charAt(i))) haslo1 = haslo1 + "_";
-	else haslo1 = haslo1 + haslo.charAt(i);
+	haslo1 = "";
 
+	for (i=0; i<dlugosc; i++)
+	{
+		//if (haslo.charAt(i)==" "|haslo.charAt(i)==","|haslo.charAt(i)==";"|haslo.charAt(i)=="("|haslo.charAt(i)==")"|haslo.charAt(i)=="-"|haslo.charAt(i)=="."|haslo.charAt(i)=="?"|haslo.charAt(i)=="!"|(haslo.charAt(i) >= '0' && haslo.charAt(i) <= '9')) haslo1 = haslo1 + haslo.charAt(i);
+		//else haslo1 = haslo1 + "_";
+		if (litery.includes(haslo.charAt(i))) haslo1 = haslo1 + "_";
+		else haslo1 = haslo1 + haslo.charAt(i);
+	}
 }
 
 function wypisz_haslo()
@@ -97,7 +111,7 @@ function wypisz_haslo()
 	document.getElementById("plansza").innerHTML = haslo1;
 }
 
-window.onload = start;
+window.onload = pokazMenu;
 
 function znajdzNrLitery(klawisz)
 {
@@ -126,9 +140,34 @@ function obsluzKlawisz(event)
 	sprawdz(nr);
 }
 
-function start()
+function pokazMenu()
 {
-	
+	document.getElementById("menu").style.display = "flex";
+	document.getElementById("pojemnik").classList.add("ukryte");
+	document.getElementById("plansza").innerHTML = "";
+	document.getElementById("alfabet").innerHTML = "";
+	document.getElementById("osiolek").innerHTML = '<img src="img/s0.jpg" alt="" />';
+}
+
+function powrotDoMenu()
+{
+	pokazMenu();
+	aktywnyZestaw = "";
+	indeksNaStraganie = 0;
+}
+
+function startGame(zestaw)
+{
+	aktywnyZestaw = zestaw;
+	haslo = getLosoweHaslo(zestaw);
+	haslo = haslo.toUpperCase();
+	dlugosc = haslo.length;
+	ile_skuch = 0;
+	zbudujHaslo1();
+
+	document.getElementById("menu").style.display = "none";
+	document.getElementById("pojemnik").classList.remove("ukryte");
+
 	var tresc_diva ="";
 	
 	for (i=0; i<=34; i++)
@@ -139,7 +178,9 @@ function start()
 	}
 	
 	document.getElementById("alfabet").innerHTML = tresc_diva;
+	document.getElementById("osiolek").innerHTML = '<img src="img/s0.jpg" alt="" />';
 	
+	document.removeEventListener("keydown", obsluzKlawisz);
 	document.addEventListener("keydown", obsluzKlawisz);
 	wypisz_haslo();
 }
@@ -230,14 +271,14 @@ function sprawdz(nr)
 	if (haslo == haslo1){
 	// zaktualizuj statystyki i pokaż komunikat
 	updateSessionStats(true);
-	document.getElementById("alfabet").innerHTML  = 'Brawo! Podano prawidłowe hasło! <br /><br /><span class="reset" onclick="location.reload()">JESZCZE RAZ?</span>';
+	document.getElementById("alfabet").innerHTML  = 'Brawo! Podano prawidłowe hasło! <br /><br /><span class="reset" onclick="location.reload()">JESZCZE RAZ?</span><br /><span class="powrot-menu" onclick="powrotDoMenu()">Powrót do menu</span>';
 	zagrajFanfare();
 
 	}
 	//przegrana
 	if (ile_skuch>=9){
 	updateSessionStats(false);
-	document.getElementById("alfabet").innerHTML  = 'Buu! Prawidłowe hasło:<br />'+haslo+'<br /><br /><span class="reset" onclick="location.reload()">JESZCZE RAZ?</span>';
+	document.getElementById("alfabet").innerHTML  = 'Buu! Prawidłowe hasło:<br />'+haslo+'<br /><br /><span class="reset" onclick="location.reload()">JESZCZE RAZ?</span><br /><span class="powrot-menu" onclick="powrotDoMenu()">Powrót do menu</span>';
 	osiol.play();
 	}
 }
