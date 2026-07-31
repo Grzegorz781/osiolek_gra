@@ -1,3 +1,7 @@
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
 body
 {
 	background-color: #000000;
@@ -5,6 +9,9 @@ body
 	font-size: 28px;
 	font-family: 'Inconsolata';
 	font-weight: 700;
+	margin: 0;
+	padding: 1rem;
+	min-height: 100vh;
 }
 
 #pojemnik
@@ -17,6 +24,7 @@ body
 	flex-wrap: wrap;
 	justify-content: center;
 	gap: 1rem;
+	padding-bottom: 2rem;
 }
 
 #plansza
@@ -27,6 +35,7 @@ body
 	text-align: center;
 	font-size: clamp(28px, 3vw, 48px);
 	min-height: 60px;
+	padding: 0 1rem;
 }
 
 #osiolek,
@@ -42,6 +51,8 @@ body
 {
 	max-width: 100%;
 	height: auto;
+	display: block;
+	margin: 0 auto;
 }
 
 @media (max-width: 760px)
@@ -49,7 +60,14 @@ body
 	#pojemnik
 	{
 		flex-direction: column;
-		align-items: center;
+		align-items: stretch;
+		gap: 0.75rem;
+	}
+
+	#plansza
+	{
+		margin-top: 3rem;
+		margin-bottom: 2rem;
 	}
 
 	#osiolek,
@@ -57,18 +75,30 @@ body
 	{
 		max-width: 100%;
 		min-height: auto;
+		padding: 0.75rem 1rem;
+		background: rgba(255,255,255,0.03);
+		border: 1px solid rgba(255,255,255,0.08);
+		border-radius: 1rem;
+	}
+
+	#alfabet
+	{
+		padding-bottom: 1rem;
 	}
 }
 
 .litera
 {
-	width: clamp(1.1rem, 2vw, 1.5rem);
-	height: clamp(1.1rem, 2vw, 1.5rem);
-	text-align:center;
-	padding: clamp(0.1rem, 0.5vw, 0.3rem);
-	margin: clamp(0.1rem, 0.5vw, 0.3rem);
+	width: clamp(2rem, 4vw, 3rem);
+	height: clamp(2rem, 4vw, 3rem);
+	line-height: clamp(2rem, 4vw, 3rem);
+	text-align: center;
+	padding: 0;
+	margin: 0.3rem;
 	border: clamp(0.1rem, 0.4vw, 0.2rem) solid gray;
-	float: left;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	cursor: pointer;
 	border-radius: 50%;
 }
@@ -83,8 +113,9 @@ body
 .menu
 {
 	max-width: 700px;
-	margin: 8vh auto 0;
+	margin: 6vh auto 0;
 	text-align: center;
+	padding: 0 1rem;
 }
 
 .menu h1
@@ -97,7 +128,7 @@ body
 {
 	display: flex;
 	justify-content: center;
-	gap: 1rem;
+	gap: clamp(0.75rem, 2vw, 1.2rem);
 	flex-wrap: wrap;
 }
 
