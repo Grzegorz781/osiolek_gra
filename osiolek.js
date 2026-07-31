@@ -6,12 +6,39 @@ function getPrzyslowie(){
 }
 
 var indeksNaStraganie = 0;
+var sesjaAktywna = false;
+var ostatniZestaw = '';
 
-function getLosoweHaslo(zestaw) {
+function zapiszStanSesji() {
+	try {
+		sessionStorage.setItem('osiolek_zestaw', aktywnyZestaw || '');
+		sessionStorage.setItem('osiolek_indeks_na_straganie', String(indeksNaStraganie));
+	} catch (e) {}
+}
+
+function czyKoniecListy(zestaw) {
+	if (zestaw === 'naStraganie') {
+		return Array.isArray(naStraganie) && naStraganie.length > 0 && indeksNaStraganie >= naStraganie.length;
+	}
+	return false;
+}
+
+function czyDostepneNastepneHaslo(zestaw) {
+	if (zestaw === 'naStraganie') {
+		return Array.isArray(naStraganie) && naStraganie.length > 0 && indeksNaStraganie < naStraganie.length;
+	}
+	return true;
+}
+
+function getNastepneHaslo(zestaw) {
 	if (zestaw === 'naStraganie') {
 		if (Array.isArray(naStraganie) && naStraganie.length > 0) {
+			if (indeksNaStraganie >= naStraganie.length) {
+				return null;
+			}
 			const hasloNaStraganie = naStraganie[indeksNaStraganie];
-			indeksNaStraganie = (indeksNaStraganie + 1) % naStraganie.length;
+			indeksNaStraganie = indeksNaStraganie + 1;
+			zapiszStanSesji();
 			return hasloNaStraganie;
 		}
 		return 'NA STRAGANIE';
@@ -147,6 +174,11 @@ function pokazMenu()
 	document.getElementById("plansza").innerHTML = "";
 	document.getElementById("alfabet").innerHTML = "";
 	document.getElementById("osiolek").innerHTML = '<img src="img/s0.jpg" alt="" />';
+	sesjaAktywna = false;
+	try {
+		sessionStorage.removeItem('osiolek_zestaw');
+		sessionStorage.removeItem('osiolek_indeks_na_straganie');
+	} catch (e) {}
 }
 
 function powrotDoMenu()
@@ -154,16 +186,24 @@ function powrotDoMenu()
 	pokazMenu();
 	aktywnyZestaw = "";
 	indeksNaStraganie = 0;
+	ostatniZestaw = "";
 }
 
 function startGame(zestaw)
 {
 	aktywnyZestaw = zestaw;
-	haslo = getLosoweHaslo(zestaw);
+	ostatniZestaw = zestaw;
+	sesjaAktywna = true;
+	haslo = getNastepneHaslo(zestaw);
+	if (!haslo) {
+		powrotDoMenu();
+		return;
+	}
 	haslo = haslo.toUpperCase();
 	dlugosc = haslo.length;
 	ile_skuch = 0;
 	zbudujHaslo1();
+	zapiszStanSesji();
 
 	document.getElementById("menu").style.display = "none";
 	document.getElementById("pojemnik").classList.remove("ukryte");
@@ -180,6 +220,41 @@ function startGame(zestaw)
 	document.getElementById("alfabet").innerHTML = tresc_diva;
 	document.getElementById("osiolek").innerHTML = '<img src="img/s0.jpg" alt="" />';
 	
+	document.removeEventListener("keydown", obsluzKlawisz);
+	document.addEventListener("keydown", obsluzKlawisz);
+	wypisz_haslo();
+}
+
+function rozpocznijNastepneHaslo()
+{
+	if (!aktywnyZestaw) {
+		powrotDoMenu();
+		return;
+	}
+	const nastepneHaslo = getNastepneHaslo(aktywnyZestaw);
+	if (!nastepneHaslo) {
+		powrotDoMenu();
+		return;
+	}
+	aktywnyZestaw = aktywnyZestaw;
+	haslo = nastepneHaslo.toUpperCase();
+	dlugosc = haslo.length;
+	ile_skuch = 0;
+	zbudujHaslo1();
+	zapiszStanSesji();
+
+	document.getElementById("menu").style.display = "none";
+	document.getElementById("pojemnik").classList.remove("ukryte");
+
+	var tresc_diva ="";
+	for (i=0; i<=34; i++)
+	{
+		var element = "lit" + i;
+		tresc_diva = tresc_diva + '<div class="litera" onclick="sprawdz('+i+')" id="'+element+'">'+litery[i]+'</div>';
+	}
+
+	document.getElementById("alfabet").innerHTML = tresc_diva;
+	document.getElementById("osiolek").innerHTML = '<img src="img/s0.jpg" alt="" />';
 	document.removeEventListener("keydown", obsluzKlawisz);
 	document.addEventListener("keydown", obsluzKlawisz);
 	wypisz_haslo();
@@ -271,14 +346,18 @@ function sprawdz(nr)
 	if (haslo == haslo1){
 	// zaktualizuj statystyki i pokaż komunikat
 	updateSessionStats(true);
-	document.getElementById("alfabet").innerHTML  = 'Brawo! Podano prawidłowe hasło! <br /><br /><span class="reset" onclick="location.reload()">JESZCZE RAZ?</span><br /><span class="powrot-menu" onclick="powrotDoMenu()">Powrót do menu</span>';
+	const kolejnyDostepny = czyDostepneNastepneHaslo(aktywnyZestaw);
+	const tekstDalej = kolejnyDostepny ? '<br /><span class="reset" onclick="rozpocznijNastepneHaslo()">DALEJ?</span>' : '';
+	document.getElementById("alfabet").innerHTML  = 'Brawo! Podano prawidłowe hasło! <br /><br />' + tekstDalej + '<br /><span class="powrot-menu" onclick="powrotDoMenu()">Powrót do menu</span>';
 	zagrajFanfare();
 
 	}
 	//przegrana
 	if (ile_skuch>=9){
 	updateSessionStats(false);
-	document.getElementById("alfabet").innerHTML  = 'Buu! Prawidłowe hasło:<br />'+haslo+'<br /><br /><span class="reset" onclick="location.reload()">JESZCZE RAZ?</span><br /><span class="powrot-menu" onclick="powrotDoMenu()">Powrót do menu</span>';
+	const kolejnyDostepny = czyDostepneNastepneHaslo(aktywnyZestaw);
+	const tekstDalej = kolejnyDostepny ? '<br /><span class="reset" onclick="rozpocznijNastepneHaslo()">DALEJ?</span>' : '';
+	document.getElementById("alfabet").innerHTML  = 'Buu! Prawidłowe hasło:<br />'+haslo+'<br /><br />' + tekstDalej + '<br /><span class="powrot-menu" onclick="powrotDoMenu()">Powrót do menu</span>';
 	osiol.play();
 	}
 }
