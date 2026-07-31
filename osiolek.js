@@ -150,6 +150,37 @@ String.prototype.ustawZnak = function(miejsce, znak)
 	else return this.substr(0, miejsce) + znak + this.substr(miejsce+1);
 }
 
+// --- Statystyki sesji (przechowywane w sessionStorage) ---
+function getSessionStats() {
+	const played = parseInt(sessionStorage.getItem('osiolek_played') || '0', 10);
+	const won = parseInt(sessionStorage.getItem('osiolek_won') || '0', 10);
+	return { played, won };
+}
+
+function updateSessionStats(win) {
+	const s = getSessionStats();
+	s.played = (s.played || 0) + 1;
+	if (win) s.won = (s.won || 0) + 1;
+	sessionStorage.setItem('osiolek_played', s.played);
+	sessionStorage.setItem('osiolek_won', s.won);
+	showSessionStats();
+}
+
+function showSessionStats() {
+	let statsEl = document.getElementById('statystyki');
+	if (!statsEl) {
+		statsEl = document.createElement('div');
+		statsEl.id = 'statystyki';
+		statsEl.style.margin = '0.5rem 0';
+		const alfabet = document.getElementById('alfabet');
+		if (alfabet && alfabet.parentNode) alfabet.parentNode.insertBefore(statsEl, alfabet.nextSibling);
+		else document.body.appendChild(statsEl);
+	}
+	const s = getSessionStats();
+	statsEl.innerHTML = 'Statystyki sesji: <strong>' + s.won + '</strong> z <strong>' + s.played + '</strong> gier';
+}
+
+
 
 function sprawdz(nr)
 {
@@ -197,12 +228,15 @@ function sprawdz(nr)
 	
 	//wygrana
 	if (haslo == haslo1){
+	// zaktualizuj statystyki i pokaż komunikat
+	updateSessionStats(true);
 	document.getElementById("alfabet").innerHTML  = 'Brawo! Podano prawidłowe hasło! <br /><br /><span class="reset" onclick="location.reload()">JESZCZE RAZ?</span>';
 	zagrajFanfare();
 
 	}
 	//przegrana
 	if (ile_skuch>=9){
+	updateSessionStats(false);
 	document.getElementById("alfabet").innerHTML  = 'Buu! Prawidłowe hasło:<br />'+haslo+'<br /><br /><span class="reset" onclick="location.reload()">JESZCZE RAZ?</span>';
 	osiol.play();
 	}
