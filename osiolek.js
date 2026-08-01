@@ -174,6 +174,7 @@ function pokazMenu()
 	document.getElementById("plansza").innerHTML = "";
 	document.getElementById("alfabet").innerHTML = "";
 	document.getElementById("osiolek").innerHTML = '<img src="img/s0.jpg" alt="" />';
+	usunStatystyki();
 	sesjaAktywna = false;
 	try {
 		sessionStorage.removeItem('osiolek_zestaw');
@@ -191,6 +192,7 @@ function powrotDoMenu()
 
 function startGame(zestaw)
 {
+	usunStatystyki();
 	aktywnyZestaw = zestaw;
 	ostatniZestaw = zestaw;
 	sesjaAktywna = true;
@@ -227,6 +229,7 @@ function startGame(zestaw)
 
 function rozpocznijNastepneHaslo()
 {
+	usunStatystyki();
 	if (!aktywnyZestaw) {
 		powrotDoMenu();
 		return;
@@ -280,6 +283,13 @@ function updateSessionStats(win) {
 	sessionStorage.setItem('osiolek_played', s.played);
 	sessionStorage.setItem('osiolek_won', s.won);
 	showSessionStats();
+}
+
+function usunStatystyki() {
+	const statsEl = document.getElementById('statystyki');
+	if (statsEl && statsEl.parentNode) {
+		statsEl.parentNode.removeChild(statsEl);
+	}
 }
 
 function showSessionStats() {
