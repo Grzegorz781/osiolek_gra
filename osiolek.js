@@ -63,7 +63,7 @@ var osiol = new Audio("osiol_rzenie.mp3")
 
 function zagrajFanfare() {
     let licznik = 0;
-    const maxPowtorzen = 3;
+    const maxPowtorzen = 1;
     fanfara.currentTime = 0;
     fanfara.play();
     	// Nasłuchiwanie końca odtwarzania
